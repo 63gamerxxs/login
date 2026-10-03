@@ -15,30 +15,6 @@
     email: document.querySelector('.li-username').value,
     password: document.querySelector('.li-password').value
   })
-  window.handleGoogle = async (response) => {
-  const { error } = await supabase.auth.signInWithIdToken({
-    provider: 'google',
-    token: response.credential
-  })
-  if (error) msg.textContent = error.message
-  else location.href = '/welcome.html'
-  }
-  document.querySelector('.Log-In').addEventListener('submit', async (e) => {
-    e.preventDefault()
-    const { error } = await supabase.auth.signInWithPassword(val())
-    if (error) msg.textContent = error.message
-    else location.href = '/welcome.html'
-  })
-  
-  document.querySelector('.reg').addEventListener('click', async (e) => {
-    e.preventDefault()
-    const { error } = await supabase.auth.signUp({
-      ...val(),
-      options: { emailRedirectTo: location.origin + '/welcome.html' }
-    })
-    msg.textContent = error ? error.message : 'Account created! Check your email if confirmation is on.'
-  })
-</script>
   <title>Log In</title>
 </head>
 <body>
@@ -56,17 +32,10 @@
     <p id="msg"></p>
     <button class="login-btn" type="submit">Submit</button>
     <div class="divider"><span>or</span></div>
-    <script src="https://accounts.google.com/gsi/client" async></script>
-<div id="g_id_onload"
-     data-client_id="YOUR_GOOGLE_CLIENT_ID"
-     data-callback="handleGoogle"
-     data-auto_prompt="false"></div>
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="pill"
-     data-theme="filled_black"
-     data-text="continue_with"
-     data-width="270"></div>
+    <a class="google-btn"
+   href="https://yhqtfxcofmmpmopfswac.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://signupkav.vercel.app">
+  Continue with Google
+  </a>
     <p class="dhac">Don't have an account? <a class="reg" href="#">Register</a></p>
   </form>
 </body>
