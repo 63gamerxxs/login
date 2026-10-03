@@ -7,13 +7,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+  const supabase = createClient('https://yhqtfxcofmmpmopfswac.supabase.co', 'sb_publishable_v0JDvYlZxEgMIMPtDTqsIw_ApUtStEy')
+  const msg = document.getElementById('msg')
+  const val = () => ({
+    email: document.querySelector('.li-username').value,
+    password: document.querySelector('.li-password').value
+  })
+
+  document.querySelector('.Log-In').addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const { error } = await supabase.auth.signInWithPassword(val())
+    if (error) msg.textContent = error.message
+    else location.href = '/welcome.html'
+  })
+  
+  document.querySelector('.reg').addEventListener('click', async (e) => {
+    e.preventDefault()
+    const { error } = await supabase.auth.signUp({
+      ...val(),
+      options: { emailRedirectTo: location.origin + '/welcome.html' }
+    })
+    msg.textContent = error ? error.message : 'Account created! Check your email if confirmation is on.'
+  })
+</script>
   <title>Log In</title>
 </head>
 <body>
   <form class="Log-In">
     <h1>Sign In</h1>
     <div class="login-input">
-      <input class="li-username" placeholder="Username" type="text" maxlength="20" required>
+      <input class="li-username" placeholder="Email" type="email" required>
       <input class="li-password" placeholder="Password" type="password" maxlength="30" required>
     </div>
     <div class="Remember-Forgot">
@@ -21,7 +46,13 @@
       <label for="rm" class="ls"><span>Remember me</span></label>
       <a href="#" class="fg">Forgot Password?</a>
     </div>
+    <p id="msg"></p>
     <button class="login-btn" type="submit">Submit</button>
+    <div class="divider"><span>or</span></div>
+    <a class="google-btn"
+   href="https://yhqtfxcofmmpmopfswac.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://signupkav.vercel.app">
+  Continue with Google
+  </a>
     <p class="dhac">Don't have an account? <a class="reg" href="#">Register</a></p>
   </form>
 </body>
