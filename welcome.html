@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Welcome</title></head>
+<body>
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+  const supabase = createClient('https://yhqtfxcofmmpmopfswac.supabase.co', 'sb_publishable_v0JDvYlZxEgMIMPtDTqsIw_ApUtStEy')
+  const { data } = await supabase.auth.getSession()
+  document.body.textContent = data.session
+    ? 'Signed in as ' + data.session.user.email
+    : 'Not signed in'
+</script>
+</body>
+</html>
